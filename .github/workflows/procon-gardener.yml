@@ -1,0 +1,53 @@
+name: ProconGardener
+
+on:
+  schedule:
+    - cron: "0 0 * * *"
+  push:
+
+jobs:
+  build:
+    permissions:
+      actions: write
+      checks: write
+      contents: write
+      deployments: write
+      issues: write
+      packages: write
+      pull-requests: write
+      repository-projects: write
+      security-events: write
+      statuses: write
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up Go
+      uses: actions/setup-go@v4
+
+    - name: Install procon-gardener
+      run: go install github.com/togatoga/procon-gardener@latest
+
+    - name: Create Config.json
+      run: |
+        mkdir -p ${HOME}/.procon-gardener
+        REPO_PATH=$(pwd)
+        cat <<- EOF > ${HOME}/.procon-gardener/config.json
+        {
+          "atcoder": {
+            "repository_path": "$REPO_PATH",
+            "user_id": "$USER_ID",
+            "user_email": "$USER_EMAIL"
+          }
+        }
+        EOF
+      env:
+        USER_ID: ${{ secrets.USER_ID }}
+        USER_EMAIL: ${{ secrets.USER_EMAIL }}
+
+    - name: Archive
+      run: procon-gardener archive
+
+    - name: Git push
+      run: git push
