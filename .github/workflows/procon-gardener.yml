@@ -25,6 +25,8 @@ jobs:
 
     - name: Set up Go
       uses: actions/setup-go@v4
+      with:
+        cache: false
 
     - name: Install procon-gardener
       run: go install github.com/togatoga/procon-gardener@latest
