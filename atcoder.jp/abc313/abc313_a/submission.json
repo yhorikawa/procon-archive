@@ -1,0 +1,12 @@
+{
+	"id": 44275625,
+	"epoch_second": 1691238216,
+	"problem_id": "abc313_a",
+	"contest_id": "abc313",
+	"user_id": "Horikawa",
+	"language": "Go (1.14.1)",
+	"point": 100,
+	"length": 1079,
+	"result": "AC",
+	"execution_time": 5
+}
